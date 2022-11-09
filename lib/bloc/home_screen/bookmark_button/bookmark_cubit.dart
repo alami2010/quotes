@@ -17,8 +17,13 @@ class BookmarkButtonCubit extends Cubit<BookmarkState> {
 
   /// Save Quote in Box.
   void bookmarkQuote(Quote? quote) {
-    emit(BookmarkPressed());
+     emit(BookmarkPressed());
+
+
+
+    quoteRepository.getSavedQuotes().then((value) => print(value));
     quoteRepository.saveQuote(quote);
+
   }
 
   /// Remove current quote from box (after adding it).

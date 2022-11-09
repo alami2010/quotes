@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:package_info_plus/package_info_plus.dart';
-
 import 'package:quotez/theme/app_dimens.dart';
 import 'package:quotez/ui/home/widgets/panel_widgets/panel_divider.dart';
 import 'package:quotez/ui/home/widgets/panel_widgets/panel_header.dart';
@@ -11,13 +9,18 @@ import 'package:quotez/utils/constants.dart';
 import 'package:quotez/utils/email_util.dart';
 import 'package:quotez/utils/ui_strings.dart';
 import 'package:quotez/utils/url_util.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 /// [AboutPanel] displays information about the app and extra communication.
 class AboutPanel extends StatefulWidget {
   final ScrollController? scrollController;
+  final PanelController? panelController;
+  final Function? loadQuotes;
 
   const AboutPanel({
     this.scrollController,
+    this.panelController,
+    this.loadQuotes,
     Key? key,
   }) : super(key: key);
 
@@ -36,6 +39,20 @@ class _AboutPanelState extends State<AboutPanel> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> mentor = [
+      "All Quotes",
+      "Annamalai Swami",
+      "Robert Adams",
+      "Jac O'Keeffe",
+      "Ramana Maharshi",
+      "Nisargadatta Maharaj",
+      "Sri Muruganar",
+      "Papaji",
+      "Jalaluddin Rumi",
+      "Love Quotes",
+      "For the Dying"
+    ];
+
     initPackageInfo().then((packageInfo) {
       setState(() {
         appInfo = packageInfo;
@@ -74,10 +91,10 @@ class _AboutPanelState extends State<AboutPanel> {
                         UiStrings.appName,
                         style: Theme.of(context).primaryTextTheme.bodyText2,
                       ),
-                      Text(
+                      /*         Text(
                         'v${appInfo?.version}',
                         style: Theme.of(context).primaryTextTheme.bodyText2,
-                      ),
+                      ),*/
                       const SizedBox(height: AppDimens.sizeUnitM),
                     ],
                   ),
@@ -85,12 +102,14 @@ class _AboutPanelState extends State<AboutPanel> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const PanelDivider(),
-                      PanelListTile(
-                        title: UiStrings.githubRepoTitle,
-                        tileIcon: const Icon(Icons.code),
-                        onTap: () async =>
-                            UrlUtil.openUrl(Constants.githubRepositoryUrl),
-                      ),
+                      ...mentor.map((element) {
+                        return PanelListTile(
+                          title: element,
+                          tileIcon: const Icon(Icons.person),
+                          onTap: () async =>
+                              widget.loadQuotes?.call(getFileName(element)),
+                        );
+                      }),
                       const PanelDivider(),
                       PanelListTile(
                         title: UiStrings.writeMeAnEmail,
@@ -117,5 +136,9 @@ class _AboutPanelState extends State<AboutPanel> {
         ),
       ),
     );
+  }
+
+  String getFileName(String element) {
+    return element.replaceAll(RegExp("[^A-Za-z0-f9]"), "");
   }
 }

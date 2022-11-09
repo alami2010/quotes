@@ -8,8 +8,8 @@ class QuoteRepository {
   final ApiClient _apiClient = ApiClient();
 
   /// Fetch random quote from API.
-  Future<Quote> getRandomQuote() async {
-    return await _apiClient.getRandomQuote();
+  Future<Quote> getRandomQuote(String mentor) async {
+    return await _apiClient.getRandomQuote(mentor);
   }
 
   /// Get all saved Quotes from local database.

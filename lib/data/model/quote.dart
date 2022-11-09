@@ -23,4 +23,9 @@ class Quote {
   }
 
   fromJson(i) {}
+
+  @override
+  String toString() {
+    return 'Quote{author: $author, quotes: $quotes, url: $url, type: $type}';
+  }
 }

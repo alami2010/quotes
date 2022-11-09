@@ -57,7 +57,7 @@ class _QuoteButtonState extends State<QuoteButton>
                   UiStrings.homeNoNetworkWidgetRoute,
                 );
               } else {
-                BlocProvider.of<HomeCubit>(context).getRandomQuote();
+                BlocProvider.of<HomeCubit>(context).getRandomQuote("");
               }
             },
             child: Center(

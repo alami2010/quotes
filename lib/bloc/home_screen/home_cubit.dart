@@ -15,22 +15,30 @@ class HomeCubit extends Cubit<HomeState> {
   final NetworkConnectivityCubit networkCubit;
   StreamSubscription? networkCubitSubscription;
 
+  String mentorx = "";
+
   HomeCubit({required this.quoteRepository, required this.networkCubit})
       : super(HomeInit()) {
     networkCubitSubscription = networkCubit.stream.listen((networkState) {
       if (networkState is NoNetworkConnectionState) {
         emit(HomeNoNetwork());
       } else if (networkState is NetworkConnectionUpdatedState) {
-        getRandomQuote();
+        getRandomQuote("AllQuotes");
       }
     });
   }
 
   /// [getRandomQuote] Returns a random quote.
-  void getRandomQuote() async {
-    emit(HomeLoading());
+  void getRandomQuote(String mentor) async {
+    print("mentor " + mentor );
+    print("mentorx " + mentorx );
 
-    final newRandomQuote = await quoteRepository.getRandomQuote();
-    emit(HomeLoaded(randomQuote: newRandomQuote));
+    emit(HomeLoading());
+    if(mentor.isNotEmpty) mentorx = mentor;
+    String currentMentor = mentor.isEmpty ? mentorx : mentor;
+    currentMentor =  currentMentor.isEmpty ? "AllQuotes" : currentMentor;
+    print("currentMentor " + currentMentor );
+    final newRandomQuote = await quoteRepository.getRandomQuote(currentMentor);
+     emit(HomeLoaded(randomQuote: newRandomQuote));
   }
 }

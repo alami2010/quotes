@@ -15,13 +15,12 @@ class ApiClient {
     ),
   );
 
-  Future<Quote> getRandomQuote() async {
+  Future<Quote> getRandomQuote(String mentor) async {
     final String response =
-        await rootBundle.loadString('assets/all-quotes.json');
+        await rootBundle.loadString('assets/' + mentor + '.json');
 
-     List myModels = (json.decode(response) as List)
-        .map((i) => Quote.fromJson(i))
-        .toList();
+    List myModels =
+        (json.decode(response) as List).map((i) => Quote.fromJson(i)).toList();
 
     var intValue = Random().nextInt(myModels.length); // Value is >= 0 and < 10.
 
