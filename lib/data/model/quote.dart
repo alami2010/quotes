@@ -1,7 +1,19 @@
-class Quote {
+
+import 'package:hive/hive.dart';
+
+@HiveType(typeId: 1)
+class Quote  extends HiveObject  {
+
+  @HiveField(4)
   String? author;
+
+  @HiveField(1)
   String? quotes;
+
+  @HiveField(2)
   String? url;
+
+  @HiveField(3)
   String? type;
 
   Quote({this.author, this.quotes, this.url, this.type});
@@ -27,5 +39,27 @@ class Quote {
   @override
   String toString() {
     return 'Quote{author: $author, quotes: $quotes, url: $url, type: $type}';
+  }
+}
+
+
+class QuoteAdapter extends TypeAdapter<Quote> {
+  @override
+  final typeId = 1;
+
+  @override
+  Quote read(BinaryReader reader) {
+    dynamic read = reader.read();
+    print("read ");
+    print(read);
+    return Quote.fromJson(read);
+  }
+
+  @override
+  void write(BinaryWriter writer, Quote obj) {
+
+    print("write ");
+    print(obj);
+    writer.write(obj.quotes);
   }
 }

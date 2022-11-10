@@ -77,8 +77,7 @@ class _QuoteButtonState extends State<QuoteButton>
                 AppDimens.buttonSizeXL,
                 AppDimens.buttonSizeXL,
               ),
-              backgroundColor: Colors.blueAccent,
-              primary: Theme.of(context).primaryColor,
+               backgroundColor: Theme.of(context).primaryColor,
               shape: const CircleBorder(
                 side: BorderSide.none,
               ),

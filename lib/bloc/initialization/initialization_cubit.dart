@@ -24,6 +24,7 @@ class InitializationCubit extends Cubit<InitializationState> {
 
     // Initializing Hive DB.
     Hive.initFlutter();
+    Hive.registerAdapter(QuoteAdapter());
 
     // Register Adapter to convert Quote Objects.
     //Hive.registerAdapter(QuoteAdapter());
